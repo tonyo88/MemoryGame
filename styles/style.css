@@ -1,0 +1,546 @@
+*::before,
+::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: auto;
+}
+
+body {
+  height: 100vh;
+  background-image: url("../assets/images/background/halloween.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+body .overlay-text {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 100;
+  font-family: 'Creepster', cursive;
+  color: #fff;
+}
+
+body .overlay-text h2 {
+  font-size: 0.8em;
+}
+
+body .overlay-text .container {
+  width: 100%;
+  text-align: center;
+}
+
+body .overlay-text .svg {
+  width: 193.7px;
+  height: 193.7px;
+}
+
+body .overlay-text .circle {
+  stroke: #f8aa28;
+  stroke-dasharray: 650;
+  stroke-dashoffset: 650;
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  opacity: 0.3;
+}
+
+body .overlay-text .playBut {
+  display: inline-block;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+body .overlay-text .playBut .triangle {
+  -webkit-transition: all 0.7s ease-in-out;
+  transition: all 0.7s ease-in-out;
+  stroke-dasharray: 240;
+  stroke-dashoffset: 480;
+  stroke: #fff;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+
+body .overlay-text .playBut:hover .triangle {
+  stroke-dashoffset: 0;
+  opacity: 1;
+  stroke: #f8aa28;
+  -webkit-animation: nudge 0.7s ease-in-out;
+          animation: nudge 0.7s ease-in-out;
+}
+
+body .overlay-text .playBut:hover .circle {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+body .visible {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-animation: overlay-grow 500ms forwards;
+          animation: overlay-grow 500ms forwards;
+}
+
+body .overlay-text-small {
+  font-size: .3em;
+  color: #f8aa28;
+}
+
+body .game-container {
+  width: 1050px;
+  max-width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+body .game-container .game-title {
+  font-family: 'Creepster', cursive;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 3.2rem;
+  background: -webkit-linear-gradient(#fff, #ff8b0d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body .game-container .sound {
+  right: 0;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+body .game-container .sound .sound-container {
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(238, 232, 232, 0.5);
+  -webkit-transition: all 0.25s ease-in;
+  transition: all 0.25s ease-in;
+}
+
+body .game-container .sound .sound-container #sound-button {
+  cursor: pointer;
+  background: transparent;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 36px;
+  text-decoration: none;
+  color: #000;
+  border-radius: 50%;
+  -webkit-transition: all 0.25s ease-in;
+  transition: all 0.25s ease-in;
+}
+
+body .game-container .sound .sound-container #sound-button:hover i {
+  -webkit-transform: rotateY(360deg);
+          transform: rotateY(360deg);
+}
+
+body .game-container .sound .sound-container #sound-button i {
+  line-height: 60px;
+  position: relative;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+body .game-container .game-info-container {
+  grid-column: 1 /-1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 450px;
+  margin: 0 auto;
+}
+
+body .game-container .game-info-container .game-info {
+  font-family: 'Sancreek', cursive;
+  font-size: 1.4rem;
+  color: #fff;
+}
+
+body .game-container .cards-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (auto)[4];
+      grid-template-columns: repeat(4, auto);
+  grid-gap: 10px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-perspective: 500px;
+          perspective: 500px;
+}
+
+body .game-container .cards-container .cards {
+  width: 105px;
+  height: 135px;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+}
+
+body .game-container .cards-container .cards .card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 10px;
+  -webkit-box-shadow: 4px 3px rgba(90, 89, 88, 0.5);
+          box-shadow: 4px 3px rgba(90, 89, 88, 0.5);
+  -webkit-transition: -webkit-transform 500ms ease-in-out;
+  transition: -webkit-transform 500ms ease-in-out;
+  transition: transform 500ms ease-in-out;
+  transition: transform 500ms ease-in-out, -webkit-transform 500ms ease-in-out;
+}
+
+body .game-container .cards-container .cards .card-face .spiders {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+}
+
+body .game-container .cards-container .cards .card-face .top-right {
+  top: 0;
+  left: 0;
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+
+body .game-container .cards-container .cards .card-face .top-left {
+  top: 0;
+  right: 0;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+
+body .game-container .cards-container .cards .card-face .bottom-right {
+  bottom: 0;
+  left: 0;
+  -webkit-transform: rotate(-145deg);
+          transform: rotate(-145deg);
+}
+
+body .game-container .cards-container .cards .card-face .bottom-left {
+  bottom: 0;
+  right: 0;
+  -webkit-transform: rotate(145deg);
+          transform: rotate(145deg);
+}
+
+body .game-container .cards-container .cards .card-face .middle-image {
+  width: 120px;
+  height: 120px;
+  background-color: transparent;
+  -webkit-transition: -webkit-transform 100ms ease-in-out;
+  transition: -webkit-transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out, -webkit-transform 100ms ease-in-out;
+  -webkit-transform: scale(0.9);
+          transform: scale(0.9);
+}
+
+body .game-container .cards-container .cards .card-face .main-spider {
+  width: 65px;
+  height: 110px;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  -webkit-transform: translateY(-10px);
+          transform: translateY(-10px);
+  -webkit-transition: -webkit-transform 100ms ease-in-out;
+  transition: -webkit-transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out, -webkit-transform 100ms ease-in-out;
+}
+
+body .game-container .cards-container .cards .card-back {
+  background: linear-gradient(235deg, #cf8446 29%, #b14545 69%);
+  border-color: #645c54;
+}
+
+body .game-container .cards-container .cards .card-back:hover .main-spider {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+}
+
+body .game-container .cards-container .cards .card-back:hover .spiders {
+  width: 32px;
+  height: 32px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+
+body .game-container .cards-container .cards .card-front {
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+  background: radial-gradient(circle, #181111 20%, #5d5d5d 52%, #ffedda 88%, #faf1ee 100%);
+  border-color: #645c54;
+}
+
+body .game-container .cards-container .cards .card-front:hover .middle-image {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+body .game-container .cards-container .visible .card-back {
+  -webkit-transform: rotateY(-180deg);
+          transform: rotateY(-180deg);
+}
+
+body .game-container .cards-container .visible .card-front {
+  -webkit-transform: rotateY(0);
+          transform: rotateY(0);
+}
+
+body .game-container .cards-container .matched .middle-image {
+  -webkit-animation: dance 1s linear infinite 500ms;
+          animation: dance 1s linear infinite 500ms;
+}
+
+@-webkit-keyframes dance {
+  0%,
+  100% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  25% {
+    -webkit-transform: rotate(-30deg);
+            transform: rotate(-30deg);
+  }
+  75% {
+    -webkit-transform: rotate(30deg);
+            transform: rotate(30deg);
+  }
+}
+
+@keyframes dance {
+  0%,
+  100% {
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+  25% {
+    -webkit-transform: rotate(-30deg);
+            transform: rotate(-30deg);
+  }
+  75% {
+    -webkit-transform: rotate(30deg);
+            transform: rotate(30deg);
+  }
+}
+
+@-webkit-keyframes overlay-grow {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 0;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 7em;
+  }
+}
+
+@keyframes overlay-grow {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 0;
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 7em;
+  }
+}
+
+@-webkit-keyframes nudge {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  30% {
+    -webkit-transform: translateX(-5px);
+            transform: translateX(-5px);
+  }
+  50% {
+    -webkit-transform: translateX(5px);
+            transform: translateX(5px);
+  }
+  70% {
+    -webkit-transform: translateX(-2px);
+            transform: translateX(-2px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+
+@keyframes nudge {
+  0% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  30% {
+    -webkit-transform: translateX(-5px);
+            transform: translateX(-5px);
+  }
+  50% {
+    -webkit-transform: translateX(5px);
+            transform: translateX(5px);
+  }
+  70% {
+    -webkit-transform: translateX(-2px);
+            transform: translateX(-2px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+
+@media screen and (min-width: 415px) and (max-width: 539px) {
+  body .overlay-text h2 {
+    font-size: 0.5em;
+  }
+  body .overlay-text .svg {
+    width: 203.7px;
+    height: 203.7px;
+  }
+  body .game-container .game-title {
+    font-size: 3rem;
+  }
+  body .game-container .sound .sound-container {
+    width: 40px;
+    height: 40px;
+  }
+  body .game-container .sound .sound-container #sound-button i {
+    font-size: 1.5rem;
+    line-height: 40px;
+  }
+  body .game-container .game-info-container {
+    width: 350px;
+  }
+  body .game-container .game-info-container .game-info {
+    font-size: 1.4rem;
+  }
+  body .game-container .cards-container .cards {
+    width: 80px;
+    height: 110px;
+  }
+  body .game-container .cards-container .cards .card-face .spiders {
+    width: 26px;
+    height: 26px;
+  }
+  body .game-container .cards-container .cards .card-face .middle-image {
+    width: 120px;
+    height: 120px;
+  }
+  body .game-container .cards-container .cards .card-face .main-spider {
+    width: 40px;
+    height: 100px;
+  }
+  body .game-container .cards-container .cards .card-back:hover .spiders {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  body .overlay-text h2 {
+    font-size: 0.4em;
+  }
+  body .overlay-text .svg {
+    width: 183.7px;
+    height: 183.7px;
+  }
+  body .game-container .game-title {
+    font-size: 3rem;
+  }
+  body .game-container .sound .sound-container {
+    width: 35px;
+    height: 35px;
+  }
+  body .game-container .sound .sound-container #sound-button i {
+    font-size: 1.4rem;
+    line-height: 35px;
+  }
+  body .game-container .game-info-container {
+    width: 300px;
+  }
+  body .game-container .game-info-container .game-info {
+    font-size: 1.4rem;
+  }
+  body .game-container .cards-container .cards {
+    width: 70px;
+    height: 90px;
+  }
+  body .game-container .cards-container .cards .card-face .spiders {
+    width: 22px;
+    height: 22px;
+  }
+  body .game-container .cards-container .cards .card-face .middle-image {
+    width: 100px;
+    height: 100px;
+  }
+  body .game-container .cards-container .cards .card-face .main-spider {
+    width: 30px;
+    height: 80px;
+  }
+  body .game-container .cards-container .cards .card-back:hover .spiders {
+    width: 24px;
+    height: 24px;
+  }
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,875 @@
+//Main Colors
+$title-color:-webkit-linear-gradient(#fff, #ff8b0d);
+$text-color: #fff;
+$main-background: rgba(0, 0, 0, 0.5);
+$play-btn-color: #f8aa28;
+$card-back-background: linear-gradient(235deg, rgba(207, 132, 70, 1) 29%, rgba(177, 69, 69, 1) 69%);
+$card-front-background: radial-gradient(circle, rgba(24, 17, 17, 1) 20%, rgba(93, 93, 93, 1) 52%, rgba(255, 237, 218, 1) 88%, rgba(250, 241, 238, 1) 100%);
+$card-border-color:#645c54;
+$card-box-shadow: rgba(90, 89, 88, 0.5);
+
+
+//Breakpoints
+$breakpoint-browser: 1280px;
+$breakpoint-iPad-Pro: 1024px;
+$breakpoint-Middle-Large: 960px;
+$breakpoint-iPad: 768px;
+$breakpoint-Middle-Small: 540px;
+$breakpoint-phone: 414px;
+$breakpoint-iPhone-5: 320px;
+
+//Mixins
+
+@mixin background-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin spiders-positioning($direction1, $direction2, $direction-props, $transform-props) {
+    #{$direction1}: $direction-props;
+    #{$direction2}: $direction-props;
+    transform: rotate($transform-props);
+}
+
+*::before,
+::after {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: auto;
+}
+
+body {
+    height: 100vh;
+    background-image: url("../assets/images/background/halloween.jpg");
+    @include background-image();
+    position: relative;
+
+    .overlay-text {
+        display: none;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        font-family: 'Creepster', cursive;
+        color: $text-color;
+
+        h2 {
+            font-size: 0.8em;
+        }
+
+        .container {
+            width: 100%;
+            text-align: center;
+        }
+
+        .svg {
+            width: 193.7px;
+            height: 193.7px;
+        }
+
+        .circle {
+            stroke: $play-btn-color;
+            stroke-dasharray: 650;
+            stroke-dashoffset: 650;
+            transition: all 0.5s ease-in-out;
+            opacity: 0.3;
+        }
+
+        .playBut {
+            display: inline-block;
+            transition: all 0.5s ease;
+
+            .triangle {
+                transition: all 0.7s ease-in-out;
+                stroke-dasharray: 240;
+                stroke-dashoffset: 480;
+                stroke: $text-color;
+                transform: translateY(0)
+            }
+
+
+            &:hover {
+
+                .triangle {
+                    stroke-dashoffset: 0;
+                    opacity: 1;
+                    stroke: $play-btn-color;
+                    animation: nudge 0.7s ease-in-out;
+                }
+
+                .circle {
+                    stroke-dashoffset: 0;
+                    opacity: 1;
+                }
+
+            }
+        }
+
+    }
+
+    .visible {
+        display: flex;
+        flex-direction: column;
+        animation: overlay-grow 500ms forwards;
+    }
+
+    .overlay-text-small {
+        font-size: .3em;
+        color: $play-btn-color;
+    }
+
+    .game-container {
+        width: 1050px;
+        max-width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        .game-title {
+            font-family: 'Creepster', cursive;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 3.2rem;
+            background: $title-color;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        .sound {
+            right: 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+
+            .sound-container {
+                display: inline-block;
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                background: rgba(238, 232, 232, 0.5);
+                transition: all 0.25s ease-in;
+
+                #sound-button {
+                    cursor: pointer;
+                    background: transparent;
+                    display: flex;
+                    justify-content: center;
+                    font-size: 36px;
+                    text-decoration: none;
+                    color: #000;
+                    border-radius: 50%;
+                    transition: all 0.25s ease-in;
+
+                    &:hover i {
+                        transform: rotateY(360deg);
+                    }
+
+                    i {
+                        line-height: 60px;
+                        position: relative;
+                        transition: 0.5s;
+                    }
+
+                }
+
+            }
+        }
+
+
+        .game-info-container {
+            grid-column: 1 /-1;
+            display: flex;
+            justify-content: space-between;
+            width: 450px;
+            margin: 0 auto;
+
+
+            .game-info {
+                font-family: 'Sancreek', cursive;
+                font-size: 1.4rem;
+                color: $text-color;
+            }
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            grid-gap: 10px;
+            justify-content: center;
+            perspective: 500px;
+
+            .cards {
+                width: 105px;
+                height: 135px;
+                border-radius: 10px;
+                position: relative;
+                cursor: pointer;
+
+                .card-face {
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    overflow: hidden;
+                    backface-visibility: hidden;
+                    border-width: 2px;
+                    border-style: solid;
+                    border-radius: 10px;
+                    box-shadow: 4px 3px $card-box-shadow;
+                    transition: transform 500ms ease-in-out;
+
+                    .spiders {
+                        position: absolute;
+                        width: 28px;
+                        height: 28px;
+                    }
+
+                    .top-right {
+                        @include spiders-positioning(top, left, 0, -45deg);
+                    }
+
+                    .top-left {
+                        @include spiders-positioning(top, right, 0, 45deg);
+
+                    }
+
+                    .bottom-right {
+                        @include spiders-positioning(bottom, left, 0, -145deg);
+
+                    }
+
+                    .bottom-left {
+                        @include spiders-positioning(bottom, right, 0, 145deg);
+                    }
+
+                    .middle-image {
+                        width: 120px;
+                        height: 120px;
+                        background-color: transparent;
+                        transition: transform 100ms ease-in-out;
+                        transform: scale(0.9);
+
+                    }
+
+                    .main-spider {
+                        width: 65px;
+                        height: 110px;
+                        align-self: flex-start;
+                        transform: translateY(-10px);
+                        transition: transform 100ms ease-in-out;
+                    }
+
+                }
+
+                .card-back {
+                    background: $card-back-background;
+                    border-color: $card-border-color;
+
+                    &:hover .main-spider {
+                        transform: translateY(0);
+
+                    }
+
+                    &:hover .spiders {
+                        width: 32px;
+                        height: 32px;
+                        transition: 0.2s;
+
+                    }
+                }
+
+                .card-front {
+                    transform: rotateY(180deg);
+                    background: $card-front-background;
+                    border-color: $card-border-color;
+
+                    &:hover .middle-image {
+                        transform: scale(1);
+                    }
+                }
+
+            }
+
+            .visible {
+                .card-back {
+                    transform: rotateY(-180deg);
+                }
+
+                .card-front {
+                    transform: rotateY(0);
+
+                }
+            }
+
+            .matched {
+                .middle-image {
+                    animation: dance 1s linear infinite 500ms;
+                }
+
+            }
+        }
+
+
+    }
+}
+
+//Animations
+
+@keyframes dance {
+
+    0%,
+    100% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(-30deg);
+    }
+
+    75% {
+        transform: rotate(30deg);
+    }
+}
+
+@keyframes overlay-grow {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+        font-size: 0;
+    }
+
+    to {
+        background-color: rgba(0, 0, 0, 0.8);
+        font-size: 7em;
+
+    }
+}
+
+@keyframes nudge {
+    0% {
+        transform: translateX(0)
+    }
+
+    30% {
+        transform: translateX(-5px)
+    }
+
+    50% {
+        transform: translateX(5px)
+    }
+
+    70% {
+        transform: translateX(-2px)
+    }
+
+    100% {
+        transform: translateX(0)
+    }
+}
+
+
+//BREAKPOINTS
+
+// Breakpoint iPad-Pro
+
+// @media screen and (min-width: $breakpoint-iPad-Pro) and (max-width: $breakpoint-browser) {
+//     body {
+
+//         .overlay-text {
+//             h2 {
+//                 font-size: 0.9em;
+//             }
+
+//             .svg {
+//                 width: 343.7px;
+//                 height: 343.7px;
+//             }
+//         }
+
+//         .overlay-text-small {
+//             font-size: 0.4rem;
+//         }
+
+//         .game-container {
+//             .game-title {
+//                 font-size: 4.5em;
+//             }
+
+//             .sound {
+
+//                 .sound-container {
+//                     width: 80px;
+//                     height: 80px;
+
+//                     #sound-button {
+//                         i {
+//                             font-size: 2.5rem;
+//                             line-height: 80px;
+//                         }
+//                     }
+//                 }
+//             }
+
+//             .game-info-container {
+//                 width: 700px;
+
+//                 .game-info {
+//                     font-size: 2.2rem;
+//                 }
+//             }
+
+//             .cards-container {
+
+//                 .cards {
+//                     width: 170px;
+//                     height: 220px;
+
+//                     .card-face {
+//                         .spiders {
+//                             width: 46px;
+//                             height: 46px;
+//                         }
+
+
+//                         .middle-image {
+//                             width: 220px;
+//                             height: 220px;
+//                         }
+
+//                         .main-spider {
+//                             width: 100px;
+//                             height: 180px;
+//                         }
+
+//                     }
+
+//                     .card-back {
+//                         &:hover .spiders {
+//                             width: 50px;
+//                             height: 50px;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//Breakpoint iPad-Pro to Middle-Large
+
+// @media screen and (min-width: $breakpoint-Middle-Large) and (max-width: 1023px) {
+//     body {
+
+//         .overlay-text {
+//             h2 {
+//                 font-size: 0.9em;
+//             }
+
+//             .svg {
+//                 width: 343.7px;
+//                 height: 343.7px;
+//             }
+//         }
+
+//         .game-container {
+//             .game-title {
+//                 font-size: 4.5em;
+//             }
+
+//             .sound {
+
+//                 .sound-container {
+//                     width: 80px;
+//                     height: 80px;
+
+//                     #sound-button {
+//                         i {
+//                             font-size: 2.5rem;
+//                             line-height: 80px;
+//                         }
+//                     }
+//                 }
+//             }
+
+//             .game-info-container {
+//                 width: 700px;
+
+//                 .game-info {
+//                     font-size: 2.2rem;
+//                 }
+//             }
+
+//             .cards-container {
+
+//                 .cards {
+//                     width: 170px;
+//                     height: 220px;
+
+//                     .card-face {
+//                         .spiders {
+//                             width: 46px;
+//                             height: 46px;
+//                         }
+
+
+//                         .middle-image {
+//                             width: 220px;
+//                             height: 220px;
+//                         }
+
+//                         .main-spider {
+//                             width: 100px;
+//                             height: 180px;
+//                         }
+
+//                     }
+
+//                     .card-back {
+//                         &:hover .spiders {
+//                             width: 50px;
+//                             height: 50px;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//Breakpoint Middle_large to iPad
+// @media screen and (min-width: $breakpoint-iPad) and (max-width: 959px) {
+//     body {
+
+//         .overlay-text {
+//             h2 {
+//                 font-size: 0.7em;
+//             }
+
+//             .svg {
+//                 width: 243.7px;
+//                 height: 243.7px;
+//             }
+//         }
+
+//         .game-container {
+//             .game-title {
+//                 font-size: 4.5em;
+//             }
+
+//             .sound {
+//                 .sound-container {
+//                     width: 60px;
+//                     height: 60px;
+
+//                     #sound-button {
+//                         i {
+//                             font-size: 2.2rem;
+//                             line-height: 60px;
+//                         }
+//                     }
+//                 }
+//             }
+
+//             .game-info-container {
+//                 width: 550px;
+
+//                 .game-info {
+//                     font-size: 1.9rem;
+//                 }
+//             }
+
+//             .cards-container {
+
+//                 .cards {
+//                     width: 140px;
+//                     height: 180px;
+
+//                     .card-face {
+//                         .spiders {
+//                             width: 36px;
+//                             height: 36px;
+//                         }
+
+
+//                         .middle-image {
+//                             width: 180px;
+//                             height: 180px;
+//                         }
+
+//                         .main-spider {
+//                             width: 80px;
+//                             height: 150px;
+//                         }
+
+//                     }
+
+//                     .card-back {
+//                         &:hover .spiders {
+//                             width: 40px;
+//                             height: 40px;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//Breakpoint iPad to Middle-Small
+
+// @media screen and (min-width: $breakpoint-Middle-Small) and (max-width: 767px) {
+
+//     body {
+
+//         .overlay-text {
+//             h2 {
+//                 font-size: 0.7em;
+//             }
+
+//             .svg {
+//                 width: 243.7px;
+//                 height: 243.7px;
+//             }
+//         }
+
+//         .game-container {
+//             .game-title {
+//                 font-size: 5rem;
+//             }
+
+//             .sound {
+//                 .sound-container {
+//                     width: 60px;
+//                     height: 60px;
+
+//                     #sound-button {
+//                         i {
+//                             font-size: 2.2rem;
+//                             line-height: 60px;
+//                         }
+//                     }
+//                 }
+//             }
+
+//             .game-info-container {
+//                 width: 500px;
+
+//                 .game-info {
+//                     font-size: 1.9rem;
+//                 }
+//             }
+
+//             .cards-container {
+
+//                 .cards {
+//                     width: 120px;
+//                     height: 160px;
+
+//                     .card-face {
+//                         .spiders {
+//                             width: 32px;
+//                             height: 32px;
+//                         }
+
+
+//                         .middle-image {
+//                             width: 160px;
+//                             height: 160px;
+//                         }
+
+//                         .main-spider {
+//                             width: 70px;
+//                             height: 130px;
+//                         }
+
+//                     }
+
+//                     .card-back {
+//                         &:hover .spiders {
+//                             width: 36px;
+//                             height: 36px;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
+
+//Breakpoint iPad to Middle-Small to Phone
+
+@media screen and (min-width: 415px) and (max-width: 539px) {
+
+    body {
+
+        .overlay-text {
+            h2 {
+                font-size: 0.5em;
+            }
+
+            .svg {
+                width: 203.7px;
+                height: 203.7px;
+            }
+        }
+
+        .game-container {
+            .game-title {
+                font-size: 3rem;
+            }
+
+            .sound {
+                .sound-container {
+                    width: 40px;
+                    height: 40px;
+
+                    #sound-button {
+                        i {
+                            font-size: 1.5rem;
+                            line-height: 40px;
+                        }
+                    }
+                }
+            }
+
+            .game-info-container {
+                width: 350px;
+
+                .game-info {
+                    font-size: 1.4rem;
+                }
+            }
+
+            .cards-container {
+
+                .cards {
+                    width: 80px;
+                    height: 110px;
+
+                    .card-face {
+                        .spiders {
+                            width: 26px;
+                            height: 26px;
+                        }
+
+
+                        .middle-image {
+                            width: 120px;
+                            height: 120px;
+                        }
+
+                        .main-spider {
+                            width: 40px;
+                            height: 100px;
+                        }
+
+                    }
+
+                    .card-back {
+                        &:hover .spiders {
+                            width: 28px;
+                            height: 28px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Breakpoint Phone
+@media screen and (max-width: $breakpoint-phone) {
+
+    body {
+
+        .overlay-text {
+            h2 {
+                font-size: 0.4em;
+            }
+
+            .svg {
+                width: 183.7px;
+                height: 183.7px;
+            }
+        }
+
+        .game-container {
+            .game-title {
+                font-size: 3rem;
+            }
+
+            .sound {
+                .sound-container {
+                    width: 35px;
+                    height: 35px;
+
+                    #sound-button {
+                        i {
+                            font-size: 1.4rem;
+                            line-height: 35px;
+                        }
+                    }
+                }
+            }
+
+            .game-info-container {
+                width: 300px;
+
+                .game-info {
+                    font-size: 1.4rem;
+                }
+            }
+
+            .cards-container {
+
+                .cards {
+                    width: 70px;
+                    height: 90px;
+
+                    .card-face {
+                        .spiders {
+                            width: 22px;
+                            height: 22px;
+                        }
+
+
+                        .middle-image {
+                            width: 100px;
+                            height: 100px;
+                        }
+
+                        .main-spider {
+                            width: 30px;
+                            height: 80px;
+                        }
+
+                    }
+
+                    .card-back {
+                        &:hover .spiders {
+                            width: 24px;
+                            height: 24px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
